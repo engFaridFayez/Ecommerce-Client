@@ -5,5 +5,5 @@ export const getProducts = () =>{
 }
 
 export const getProductDetails = (id) =>{
-    return api.get(`store/products/${id}/`)
+    return api.get(`store/products/details/${id}/`)
 }

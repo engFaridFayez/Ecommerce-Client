@@ -1,18 +1,28 @@
 <script setup>
     import { onMounted } from 'vue';
-    import { getProducts } from '@/api/product';
+    import { useProductStore } from '@/stores/productStore';
+import ProductDetails from './ProductDetails.vue';
 
-    onMounted(async ()=>{
+    const productStore = useProductStore()
 
-        const response = await getProducts()
-
-        console.log(response.data);
-        
+    onMounted(()=>{
+        productStore.fetchProducts()
     })
 </script>
 
 <template>
-    <div>
-        <h1>Home Page</h1>
+    <h1>
+        HIIIIIIII
+    </h1>
+    <div v-if="productStore.loading">
+        Loading...
+    </div>
+    <div v-else>
+        <div v-for="product in productStore.products" :key="product.id">
+            <router-link :to="`/product/${product.id}`">
+                {{ product.name }} - {{ product.price }}
+            </router-link>
+            
+        </div>
     </div>
 </template>
