@@ -5,23 +5,44 @@ import { getProducts ,getProductDetails, addProduct, updateProduct} from "@/api/
 export const useProductStore = defineStore("product",{
     state: () => ({
     products:[],
-    currentPage:1,
-    totalPages:1,
+    next:null,
+    previous:null,
+    count:0,
     productDetails:null,
     loading:false,
     error:null,
+    currentPage:1,
+    selectedCategory:null,
     }),
 
     actions:{
-        async fetchProducts(page = 1) {
+
+        setCategory(categoryId) {
+            this.selectedCategory = categoryId;
+            let url = `http://127.0.0.1:8000/api/store/products/`
+            if (categoryId) {
+                url += `?category=${categoryId}`
+            }
+            this.fetchProducts(url)
+        },
+        async fetchProducts(url=null) {
             this.loading = true
             this.error = null
 
             try{
-                const response =await getProducts()  
+                const response =await getProducts(url)  
                 console.log(response);
-                
                 this.products = response.data.results
+                this.next = response.data.next
+                this.previous = response.data.previous
+                this.count = response.data.count
+
+                if(url) {
+                    const parseUrl = new URL(url)
+                    this.currentPage = Number(parseUrl.searchParams.get("page")) || 1
+                } else {
+                    this.currentPage = 1
+                }
             }
             catch(error){
                 this.error = "Failed to load products"

@@ -1,7 +1,11 @@
+import axios from "axios";
 import api from "./axios";
 
-export const getProducts = (page = 1) =>{
-    return api.get(`store/products/?page=${page}`)
+export const getProducts = (url) =>{
+    if(url){
+        return axios.get(url)
+    }
+    return api.get("store/products/")
 }
 
 export const getProductDetails = (slug) =>{
