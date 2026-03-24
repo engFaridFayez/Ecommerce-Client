@@ -26,7 +26,23 @@ const end = computed(() => {
 const goToPage = (page) => {
   const url = `http://127.0.0.1:8000/api/store/products/?page=${page}`;
   productStore.fetchProducts(url);
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  })
 };
+
+const goToUrl = async (url) => {
+  if(!url) return;
+
+  await productStore.fetchProducts(url);
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  })
+}
 </script>
 
 <template>
@@ -34,7 +50,7 @@ const goToPage = (page) => {
     class="flex items-center justify-between border-t border-gray-700 px-4 py-4"
   >
     <!-- Showing -->
-    <p class="text-sm text-gray-300">
+    <p class="text-sm text-black">
       Showing
       <span class="font-medium">{{ start }}</span>
       to
@@ -48,7 +64,7 @@ const goToPage = (page) => {
     <nav class="isolate inline-flex -space-x-px rounded-md">
       <!-- Previous -->
       <button
-        @click="productStore.fetchProducts(productStore.previous)"
+        @click="goToUrl(productStore.previous)"
         :disabled="!productStore.previous"
         class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 inset-ring inset-ring-gray-700 hover:bg-white/5 focus:z-20 focus:outline-offset-0"
       >
@@ -64,8 +80,8 @@ const goToPage = (page) => {
         :class="[
           'relative inline-flex items-center px-4 py-2 text-sm font-semibold transition',
           page === currentPage
-            ? 'z-10 bg-indigo-500 text-white'
-            : 'text-gray-200 hover:bg-gray-600',
+            ? 'z-10 bg-purple-500 text-white'
+            : 'text-black hover:bg-purple-600',
         ]"
       >
         {{ page }}
@@ -73,7 +89,7 @@ const goToPage = (page) => {
 
       <!-- Next -->
       <button
-        @click="productStore.fetchProducts(productStore.next)"
+        @click="goToUrl(productStore.next)"
         :disabled="!productStore.next"
         class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 inset-ring inset-ring-gray-700 hover:bg-white/5 focus:z-20 focus:outline-offset-0"
       >

@@ -14,13 +14,18 @@ onMounted(async () => {
 
 <template>
   <div class="grid grid-cols-12 gap-6 bg-white">
-    <FIlter />
-    <div class="col-span-1"></div>
-    
-    <div class="col-span-8">
+    <div class="col-span-12">
+      <FIlter />
+    </div>
+    <div class="col-span-1">
+    </div>
+    <div class="col-span-10">
       <div>
-        <h1 class="text-3xl font-bold text-purple-700 mb-4 text-center">Products</h1>
+        <h1 class="text-3xl font-bold text-purple-700 mb-4 text-center">
+          Products
+        </h1>
       </div>
+
       <div v-if="productStore.loading" class="text-center py-10">
         Loading...
       </div>

@@ -39,7 +39,7 @@ onUnmounted(() =>{
 </script>
 <template>
   <div
-    class="relative w-full h-120 lg:h-150 overflow-hidden rounded-2xl shadow-lg"
+    class="relative w-full h-120 lg:h-90 overflow-hidden rounded-2xl shadow-lg"
   >
     <!-- Slides -->
     <div
@@ -71,7 +71,7 @@ onUnmounted(() =>{
         <!-- IMAGE -->
         <img
           :src="slide.image"
-          class="w-60 sm:w-75 lg:w-md h-auto object-cover rounded-xl"
+          class="w-60 sm:w-75 lg:w-70 h-auto object-cover rounded-xl"
         />
       </div>
     </div>
