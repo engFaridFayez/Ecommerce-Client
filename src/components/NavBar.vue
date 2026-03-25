@@ -1,20 +1,27 @@
 <script setup>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
+import { useAuthStore } from "@/stores/authStore";
+import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
+import { useCartStore } from "@/stores/CartStore";
 
 const isOpen = ref(false);
-
+const authStore = useAuthStore();
+const cartStore = useCartStore()
+authStore.loadUserFromLocalStorage();
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
 };
+
+const logout = authStore.logout;
 </script>
 
 <template>
-  <nav >
+  <nav>
     <div class="max-w-400 mx-auto px-4">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
-        <div class="text-2xl font-bold text-purple-300 ">MyStore</div>
+        <div class="text-2xl font-bold text-purple-300">MyStore</div>
 
         <!-- Links -->
         <div class="hidden md:flex space-x-8 pr-5 pl-5">
@@ -66,17 +73,43 @@ const toggleMenu = () => {
         </div>
 
         <!-- Right Side -->
-        <div class="flex items-center space-x-4 pl-5">
+        <div
+          v-if="authStore.accessToken"
+          class="flex items-center space-x-4 pl-5"
+        >
+          <router-link to="/cart" class="relative">
+            <ShoppingCartIcon
+              class="w-10 h-10 text-white hover:text-purple-200 transition"
+            />
+
+            <!-- Optional: badge showing number of items -->
+            <span
+              v-if="cartStore.items.length > 0"
+              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
+            >
+              {{ cartStore.items.length }}
+            </span>
+          </router-link>
           <button
+            @click="logout"
+            class="bg-[#4F0A9C] text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition"
+          >
+            Logout
+          </button>
+        </div>
+        <div v-else class="flex items-center space-x-4 pl-5">
+          <router-link
+            to="/login"
             class="bg-[#4F0A9C] text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition"
           >
             Login
-          </button>
-          <button
+          </router-link>
+          <router-link
+            to="/register"
             class="bg-purple-100 text-[#4F0A9C] px-4 py-2 rounded-lg hover:bg-purple-300 transition"
           >
             Sign up
-          </button>
+          </router-link>
 
           <!-- Mobile Button -->
           <button @click="toggleMenu" class="md:hidden text-2xl text-gray-700">

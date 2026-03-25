@@ -4,6 +4,7 @@ import { onMounted } from "vue";
 import ProductCard from "@/components/ProductCard.vue";
 import Pagination from "@/components/Pagination.vue";
 import FIlter from "@/components/FIlter.vue";
+import { useCartStore } from "@/stores/CartStore";
 
 const productStore = useProductStore();
 
