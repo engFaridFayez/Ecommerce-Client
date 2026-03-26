@@ -1,12 +1,12 @@
 <script setup>
-import { ref,onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { useCartStore } from "@/stores/CartStore";
 
 const isOpen = ref(false);
 const authStore = useAuthStore();
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 authStore.loadUserFromLocalStorage();
 
 const toggleMenu = () => {
@@ -14,6 +14,15 @@ const toggleMenu = () => {
 };
 
 const logout = authStore.logout;
+
+const cartCount = computed(() => cartStore.cartCount);
+
+onMounted(() => {
+  cartStore.loadCart();
+  if (authStore.accessToken) {
+    cartStore.fetchCart();
+  }
+});
 </script>
 
 <template>
@@ -25,17 +34,17 @@ const logout = authStore.logout;
 
         <!-- Links -->
         <div class="hidden md:flex space-x-8 pr-5 pl-5">
-          <a href="#" class="text-white hover:text-purple-400 transition"
-            >Home</a
+          <router-link to="/" class="text-white hover:text-purple-400 transition"
+            >Home</router-link
           >
-          <a href="#" class="text-white hover:text-purple-400 transition"
-            >Products</a
+          <router-link to="/productsList" class="text-white hover:text-purple-400 transition"
+            >Products</router-link
           >
-          <a href="#" class="text-white hover:text-purple-400 transition"
-            >Categories</a
+          <router-link to="/categories" class="text-white hover:text-purple-400 transition"
+            >Categories</router-link
           >
-          <a href="#" class="text-white hover:text-purple-400 transition"
-            >About</a
+          <router-link to="/" class="text-white hover:text-purple-400 transition"
+            >About</router-link
           >
         </div>
         <div>
@@ -84,10 +93,9 @@ const logout = authStore.logout;
 
             <!-- Optional: badge showing number of items -->
             <span
-              v-if="cartStore.items.length > 0"
               class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
             >
-              {{ cartStore.items.length }}
+              {{ cartCount }}
             </span>
           </router-link>
           <button
