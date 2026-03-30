@@ -11,9 +11,9 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("access");
-        if(token){
+        if (token) {
             config.headers = config.headers || {};
-            
+
             config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
@@ -26,9 +26,12 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if(error.response?.status === 401) {
-            console.log("Unauthorized! Please login again");
-            router.push("/login")
+        if (error.response?.status === 401) {
+            const token = localStorage.getItem("access");
+
+            if (!token) {
+                router.push("/login");
+            }
         }
         return Promise.reject(error);
     }

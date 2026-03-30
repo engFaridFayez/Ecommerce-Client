@@ -2,6 +2,13 @@
 import { useCartStore } from "@/stores/CartStore";
 import { onMounted, computed, ref } from "vue";
 import { TrashIcon } from '@heroicons/vue/24/solid'
+import { useOrderStore } from '@/stores/orderStore';
+
+const orderStore = useOrderStore();
+
+const checkout = () => {
+  orderStore.checkoutOrder();
+}
 
 const isUpdating = ref(false);
 
@@ -137,7 +144,7 @@ const cartTotal = computed(() => {
             <span class="font-bold text-purple-700"> ${{ cartTotal }} </span>
           </div>
 
-          <button
+          <button @click="checkout"
             class="w-full bg-purple-700 text-white py-3 rounded-xl hover:bg-purple-800 transition font-semibold"
           >
             Checkout

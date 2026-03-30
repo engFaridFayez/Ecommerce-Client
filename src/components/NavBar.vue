@@ -37,7 +37,7 @@ onMounted(() => {
           <router-link to="/" class="text-white hover:text-purple-400 transition"
             >Home</router-link
           >
-          <router-link to="/productsList" class="text-white hover:text-purple-400 transition"
+          <router-link to="/products" class="text-white hover:text-purple-400 transition"
             >Products</router-link
           >
           <router-link to="/categories" class="text-white hover:text-purple-400 transition"

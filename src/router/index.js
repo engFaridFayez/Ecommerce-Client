@@ -50,12 +50,14 @@ const router = createRouter({
     {
       path:'/add-product',
       name:'addProduct',
-      component:ProductForm
+      component:ProductForm,
+      meta: {requiresAuth: true}
     },
     {
       path:'/edit-product/:slug',
       name:'editProduct',
-      component: () => import("@/pages/ProductForm.vue")
+      component: () => import("@/pages/ProductForm.vue"),
+      meta: {requiresAuth: true}
     },
     {
       path:'/cart',
@@ -66,6 +68,11 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach((to) => {
+  const token = localStorage.getItem("access");
 
-
+  if (to.meta.requiresAuth && !token) {
+    return "/login";
+  }
+});
 export default router
