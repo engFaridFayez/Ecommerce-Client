@@ -2,6 +2,9 @@
 import { ref, watch, computed } from "vue";
 import { useCartStore } from "@/stores/CartStore";
 import { useProductStore } from "@/stores/productStore";
+import { useToastStore } from "@/stores/toastStore";
+
+const toast = useToastStore();
 
 const cartStore = useCartStore();
 
@@ -12,6 +15,12 @@ const quantity = ref(1);
 const addProduct = (productId) => {
   console.log("Adding Product", productId, "Quantity:", quantity.value);
   cartStore.addToCart(productId, quantity.value);
+  try {
+    toast.showToast("Product Added to you cart ✅")
+  } catch (error) {
+    toast.showToast("Faild To add product ❌", "error")
+  }
+  
 };
 
 const props = defineProps({

@@ -4,6 +4,6 @@ export const checkout = () => {
     return api.post("store/orders/checkout/")
 }
 
-export const viewOrder = () =>{
+export const getOrders = () =>{
     return api.get("store/orders/view/")
 }

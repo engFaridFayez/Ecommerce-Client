@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed,onBeforeUnmount } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { useCartStore } from "@/stores/CartStore";
@@ -7,10 +7,20 @@ import { useCartStore } from "@/stores/CartStore";
 const isOpen = ref(false);
 const authStore = useAuthStore();
 const cartStore = useCartStore();
+const isDropdownOpen = ref(false);
 authStore.loadUserFromLocalStorage();
+const dropdownRef = ref(null);
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
+};
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
+const handleClickOutside = (event) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    isDropdownOpen.value = false;
+  }
 };
 
 const logout = authStore.logout;
@@ -22,7 +32,13 @@ onMounted(() => {
   if (authStore.accessToken) {
     cartStore.fetchCart();
   }
+  authStore.getProfile();
+  document.addEventListener("click",handleClickOutside);
 });
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click",handleClickOutside)
+})
 </script>
 
 <template>
@@ -34,16 +50,24 @@ onMounted(() => {
 
         <!-- Links -->
         <div class="hidden md:flex space-x-8 pr-5 pl-5">
-          <router-link to="/" class="text-white hover:text-purple-400 transition"
+          <router-link
+            to="/"
+            class="text-white hover:text-purple-400 transition"
             >Home</router-link
           >
-          <router-link to="/products" class="text-white hover:text-purple-400 transition"
+          <router-link
+            to="/products"
+            class="text-white hover:text-purple-400 transition"
             >Products</router-link
           >
-          <router-link to="/categories" class="text-white hover:text-purple-400 transition"
+          <router-link
+            to="/categories"
+            class="text-white hover:text-purple-400 transition"
             >Categories</router-link
           >
-          <router-link to="/" class="text-white hover:text-purple-400 transition"
+          <router-link
+            to="/"
+            class="text-white hover:text-purple-400 transition"
             >About</router-link
           >
         </div>
@@ -98,12 +122,39 @@ onMounted(() => {
               {{ cartCount }}
             </span>
           </router-link>
-          <button
-            @click="logout"
-            class="bg-[#4F0A9C] text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition"
-          >
-            Logout
-          </button>
+          <div ref="dropdownRef" class="relative w-auto h-auto">
+            <!-- Avatar + Arrow -->
+            <div
+              @click="toggleDropdown"
+              class="flex items-center space-x-2 cursor-pointer"
+            >
+              <img
+                :src="authStore.image"
+                alt="user"
+                class="w-10 h-10 rounded-full border-2 border-purple-400"
+              />
+              <span class="text-white text-lg">⌄</span>
+            </div>
+
+            <!-- Dropdown -->
+            <div
+              v-if="isDropdownOpen"
+              class="absolute lol right-0 mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden z-150"
+            >
+              <router-link  to="/profile">
+                <button class="w-full text-left px-4 py-2 hover:bg-gray-100 font-semibold cursor-pointer">
+                  Profile
+                </button>
+              </router-link>
+              <button
+                @click="logout"
+                class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500 font-semibold cursor-pointer"
+              >
+                Logout
+              </button>
+              
+            </div>
+          </div>
         </div>
         <div v-else class="flex items-center space-x-4 pl-5">
           <router-link
@@ -120,10 +171,10 @@ onMounted(() => {
           </router-link>
 
           <!-- Mobile Button -->
-          <button @click="toggleMenu" class="md:hidden text-2xl text-gray-700">
-            ☰
-          </button>
         </div>
+        <button @click="toggleMenu" class="md:hidden text-2xl text-white">
+          ☰
+        </button>
       </div>
     </div>
     <div v-if="isOpen" class="md:hidden space-y-4 mt-5 pb-4">
@@ -159,10 +210,24 @@ onMounted(() => {
             </svg>
           </button>
         </form>
-        <a href="#" class="hover:text-[#4F0A9C]">Home</a>
-        <a href="#" class="hover:text-[#4F0A9C]">Products</a>
-        <a href="#" class="hover:text-[#4F0A9C]">Categories</a>
-        <a href="#" class="hover:text-[#4F0A9C] mb-5">About</a>
+        <router-link to="/" class="text-white hover:text-purple-400 transition"
+          >Home</router-link
+        >
+        <router-link
+          to="/products"
+          class="text-white hover:text-purple-400 transition"
+          >Products</router-link
+        >
+        <router-link
+          to="/categories"
+          class="text-white hover:text-purple-400 transition"
+          >Categories</router-link
+        >
+        <router-link
+          to="/"
+          class="text-white mb-5 hover:text-purple-400 transition"
+          >About</router-link
+        >
       </div>
     </div>
   </nav>

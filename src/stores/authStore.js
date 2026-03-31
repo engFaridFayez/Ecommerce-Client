@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { login, register } from "@/api/auth";
+import { login, profile, register } from "@/api/auth";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
@@ -8,6 +8,8 @@ export const useAuthStore = defineStore("auth", {
         refreshToken:null,
         loading:false,
         error:null,
+        image:null,
+        bio:null
     }),
 
     actions:{
@@ -95,5 +97,22 @@ export const useAuthStore = defineStore("auth", {
                 // ممكن تعمل هنا decode لل JWT أو fetch للمعلومات
             }
         },
+
+        async getProfile() {
+            this.loading = true
+            this.error = null
+
+            try {
+                const response =await profile()
+                console.log(response.data);
+                this.bio = response.data.bio
+                this.image = response.data.image
+                
+            } catch (error) {
+                this.error = "Can't Load Profile!"
+            }finally{
+                this.loading = false
+            }
+        }
     }
 })
