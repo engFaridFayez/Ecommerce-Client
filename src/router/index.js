@@ -9,6 +9,7 @@ import Success from '@/pages/Success.vue'
 import Cart from '@/pages/Cart.vue'
 import Categories from '@/pages/Categories.vue'
 import Profile from '@/pages/Profile.vue'
+import Orders from '@/pages/Orders.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,6 +70,12 @@ const router = createRouter({
       path:'/profile',
       name:"profile",
       component:Profile,
+      meta:{requiresAuth:true}
+    },
+    {
+      path:'/orders',
+      name:"orders",
+      component:Orders,
       meta:{requiresAuth:true}
     }
 

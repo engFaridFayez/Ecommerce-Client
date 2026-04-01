@@ -12,15 +12,16 @@ const productStore = useProductStore;
 
 const quantity = ref(1);
 
-const addProduct = (productId) => {
-  console.log("Adding Product", productId, "Quantity:", quantity.value);
-  cartStore.addToCart(productId, quantity.value);
+const addProduct = async (productId) => {
   try {
-    toast.showToast("Product Added to you cart ✅")
+    await cartStore.addToCart(productId, quantity.value);
+    await cartStore.fetchCart();
+
+    toast.showToast("Product Added to your cart ✅");
+
   } catch (error) {
-    toast.showToast("Faild To add product ❌", "error")
+    toast.showToast("Failed To add product ❌", "error");
   }
-  
 };
 
 const props = defineProps({

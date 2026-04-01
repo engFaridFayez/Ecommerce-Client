@@ -3,11 +3,23 @@ import { useCartStore } from "@/stores/CartStore";
 import { onMounted, computed, ref } from "vue";
 import { TrashIcon } from '@heroicons/vue/24/solid'
 import { useOrderStore } from '@/stores/orderStore';
+import router from "@/router";
+import { useToastStore } from "@/stores/toastStore";
 
 const orderStore = useOrderStore();
 
-const checkout = () => {
-  orderStore.checkoutOrder();
+const toast = useToastStore();
+
+const checkout = async () => {
+  await orderStore.checkoutOrder();
+
+  if(!orderStore.error){
+    await router.push('/orders');
+    window.location.reload();
+    toast.showToast("Order Placed! ✅")
+  }else{
+    toast.showToast("Order Error! ❌","error")
+  }
 }
 
 const isUpdating = ref(false);

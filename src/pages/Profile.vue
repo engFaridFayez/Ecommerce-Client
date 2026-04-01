@@ -55,9 +55,9 @@ onMounted(() => {
           <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
             Edit Profile
           </button>
-          <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-blue-700 transition">
+          <router-link to="/orders" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-blue-700 transition">
             Your Orders
-          </button>
+          </router-link>
           <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
             Logout
           </button>

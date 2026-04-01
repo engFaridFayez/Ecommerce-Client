@@ -28,7 +28,7 @@ export const useOrderStore = defineStore("order", {
 
         async viewOrders() {
             this.loading = true
-            this.error = true
+            this.error = null
 
             try {
                 const response = await getOrders()
