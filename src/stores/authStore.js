@@ -19,7 +19,7 @@ export const useAuthStore = defineStore("auth", {
 
             try {
                 const response = await login(formData)
-                console.log(response);
+                //console.log(response);
                 
 
                 this.accessToken = response.data.access
@@ -52,6 +52,7 @@ export const useAuthStore = defineStore("auth", {
 
             localStorage.removeItem("access")
             localStorage.removeItem("refresh")
+            window.location.reload
         },
 
         async registerUser(formData) {
@@ -60,7 +61,7 @@ export const useAuthStore = defineStore("auth", {
 
             try {
                 const response = await register(formData)
-                console.log(response);
+                //console.log(response);
             } catch (error) {
                 const data = error.response?.data
 
@@ -80,7 +81,7 @@ export const useAuthStore = defineStore("auth", {
                 else {
                     this.error = "Registration Failed"
                 }
-                console.log(error.response?.data)
+                //console.log(error.response?.data)
             }finally{
                 this.loading = false
             }
@@ -104,7 +105,7 @@ export const useAuthStore = defineStore("auth", {
 
             try {
                 const response =await profile()
-                console.log(response.data);
+                //console.log(response.data);
                 this.bio = response.data.bio
                 this.image = response.data.image
                 

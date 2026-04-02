@@ -8,7 +8,6 @@ const toast = useToastStore();
 
 const cartStore = useCartStore();
 
-const productStore = useProductStore;
 
 const quantity = ref(1);
 

@@ -6,7 +6,8 @@
 
     <form @submit.prevent="submit" class="space-y-4">
       <div v-if="categories.length">
-        <select v-model="form.category" class="w-full border p-2 rounded">
+      <select v-model="form.category" class="w-full border p-2 rounded" placeholder="Select category">
+        <option disabled value="">Select category</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.id">
           {{ cat.name }}
         </option>
@@ -63,7 +64,7 @@ const categoryStore = useCategoryStore()
 const categories = ref([])
 
 const form = reactive({
-  category:categories.value[0]?.id || null,
+  category:"",
   name: "",
   price: "",
   image: null,
@@ -95,7 +96,7 @@ onMounted(async () => {
 
 const submit = async () => {
   try {
-    console.log("Submitting category id:", form.category);
+    //console.log("Submitting category id:", form.category);
     const data = new FormData();
     data.append("name", form.name);
     data.append("price", form.price);
@@ -112,9 +113,12 @@ const submit = async () => {
     } else {
       await productStore.addProductMethod(data);
     }
-    router.push("/");
+    if(!productStore.error){
+      router.push("/");
+    }
+    
   } catch (error) {
-    console.log("ERROR RESPONSE:", error.response.data);
+    //console.log("ERROR RESPONSE:", error.response.data);
   }
 };
 </script>

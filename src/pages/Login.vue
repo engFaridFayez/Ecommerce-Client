@@ -21,7 +21,7 @@ const submit = async () => {
 onMounted(async () => {
   const res = await getProducts();
   const products = res;
-  console.log(products);
+  //console.log(products);
 });
 </script>
 

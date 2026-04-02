@@ -1,8 +1,15 @@
 <script setup>
-import { ref, onMounted, computed,onBeforeUnmount } from "vue";
+import { ref, onMounted, computed,onBeforeUnmount, onUnmounted } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { useCartStore } from "@/stores/CartStore";
+
+
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 1;
+};
 
 const isOpen = ref(false);
 const authStore = useAuthStore();
@@ -28,13 +35,17 @@ const logout = authStore.logout;
 const cartCount = computed(() => cartStore.cartCount);
 
 onMounted(() => {
+  window.addEventListener("scroll",handleScroll);
   cartStore.loadCart();
   if (authStore.accessToken) {
     cartStore.fetchCart();
+    authStore.getProfile();
   }
-  authStore.getProfile();
   document.addEventListener("click",handleClickOutside);
 });
+onUnmounted(() => {
+  window.removeEventListener("scroll",handleScroll)
+})
 
 onBeforeUnmount(() => {
   document.removeEventListener("click",handleClickOutside)
@@ -42,11 +53,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <nav>
+  <nav :class="[
+    'sticky top-0 z-50 transition-all duration-300 ease-in-out',
+    isScrolled ? 'bg-linear-to-br from-[#8909b4] via-purple-800 to-indigo-900' :''
+  ]">
     <div class="max-w-400 mx-auto px-4">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
-        <div class="text-2xl font-bold text-purple-300">MyStore</div>
+        <div class="text-2xl font-bold text-purple-300">Store Logo</div>
 
         <!-- Links -->
         <div class="hidden md:flex space-x-8 pr-5 pl-5">

@@ -11,7 +11,7 @@ const cartStore = useCartStore();
 const productStore = useProductStore();
 const quantity = ref(1);
 const addProduct = (productId) => {
-  console.log("Adding Product", productId, "Quantity:", quantity.value);
+  //console.log("Adding Product", productId, "Quantity:", quantity.value);
   cartStore.addToCart(productId, quantity.value);
   try {
     toast.showToast("Product Added to you cart ✅")
@@ -45,7 +45,7 @@ watch(quantity, (newVal) => {
 </script>
 
 <template>
-  <div class="p-10">
+  <div class="p-10 bg-white">
     <!-- Loading -->
     <div v-if="productStore.loading" class="text-center align-middle text-xl">
       Loading...

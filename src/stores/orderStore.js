@@ -16,10 +16,10 @@ export const useOrderStore = defineStore("order", {
 
             try {
                 const response = await checkout()
-                console.log(response.data);
+                //console.log(response.data);
 
             } catch (error) {
-                console.log("ERROR:", error.response?.data);  // 👈 ده أهم سطر
+                //console.log("ERROR:", error.response?.data);  // 👈 ده أهم سطر
                 this.error = error.response?.data?.message || "can't checkout this order"
             } finally {
                 this.loading = false
@@ -32,7 +32,7 @@ export const useOrderStore = defineStore("order", {
 
             try {
                 const response = await getOrders()
-                console.log(response.data);
+                //console.log(response.data);
                 
                 this.orders = response.data.orders
             } catch (error) {

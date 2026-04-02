@@ -15,7 +15,6 @@ const checkout = async () => {
 
   if(!orderStore.error){
     await router.push('/orders');
-    window.location.reload();
     toast.showToast("Order Placed! ✅")
   }else{
     toast.showToast("Order Error! ❌","error")

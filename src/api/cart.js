@@ -10,7 +10,7 @@ export const addToCart = (data) =>{
 }
 
 export const updateCart = (data) => {
-    console.log("SEND TO API:", data);
+    //console.log("SEND TO API:", data);
     return api.put('store/cart/update/',{
             product_id:data.productId || data.product_id,
             quantity: data.quantity
@@ -18,7 +18,7 @@ export const updateCart = (data) => {
 }
 
 export const removeFromCartAPI = (productId) =>{
-    console.log("Deleting product:", productId);
+    //console.log("Deleting product:", productId);
     return api.delete('store/cart/delete/',{
         data: {product_id:productId}
     });

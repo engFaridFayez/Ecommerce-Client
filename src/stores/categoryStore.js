@@ -15,11 +15,11 @@ export const useCategoryStore = defineStore("category",{
 
             try{
                 const response = await getCategories()
-                console.log(response);
+                //console.log(response);
                 this.categories = response.data
             }catch(error){
                 this.error = "Failed to load categories"
-                console.log(error);
+                //console.log(error);
             }finally {
                 this.loading = false
             }

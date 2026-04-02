@@ -22,7 +22,7 @@ export const useCartStore = defineStore("cart", {
 
             try {
                 const response = await viewCart()
-                console.log(response);
+                //console.log(response);
                 this.items = response.data.cart?.items || response.data.items || [];
                 this.saveCartToLocal();
             } catch (error) {
@@ -46,7 +46,9 @@ export const useCartStore = defineStore("cart", {
                 }));
                 this.saveCartToLocal();
             } catch (err) {
-                this.error = err.response?.data || "Failed to add to cart";
+                this.error = err.response?.data || "Failed to add to cart";    
+                
+                            
             } finally {
                 this.loading = false;
             }
@@ -58,7 +60,7 @@ export const useCartStore = defineStore("cart", {
                 try {
                     this.items = JSON.parse(data);
                 } catch (error) {
-                    console.log("Failed to parse cart from localStorage", error);
+                    //console.log("Failed to parse cart from localStorage", error);
                     this.items = []
                 }
 

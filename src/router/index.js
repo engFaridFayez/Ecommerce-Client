@@ -18,16 +18,19 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
+      meta :{showNav : true}
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
+      meta :{showNav : true}
     },
     {
       path: '/register',
       name: 'register',
       component: Register,
+      meta :{showNav : true}
     },
     {
       path: '/success',
@@ -38,45 +41,61 @@ const router = createRouter({
       path: '/products',
       name: 'productsList',
       component: ProductsList,
+      meta :{showNav : true}
     },
     {
       path: '/categories',
       name: 'categoriesList',
       component: Categories,
+      meta :{showNav : true}
     },
     {
       path: '/product/:slug',
       name:'productDetails',
-      component:ProductDetails
+      component:ProductDetails,
+      meta :{showNav : true}
     },
     {
       path:'/add-product',
       name:'addProduct',
       component:ProductForm,
-      meta: {requiresAuth: true}
+      meta: {
+        requiresAuth: true,
+        showNav:true,
+      }
     },
     {
       path:'/edit-product/:slug',
       name:'editProduct',
       component: () => import("@/pages/ProductForm.vue"),
-      meta: {requiresAuth: true}
+      meta: {
+        requiresAuth: true,
+        showNav:true,
+      }
     },
     {
       path:'/cart',
       name:'cart',
-      component:Cart
+      component:Cart,
+      meta :{showNav : true}
     },
     {
       path:'/profile',
       name:"profile",
       component:Profile,
-      meta:{requiresAuth:true}
+      meta: {
+        requiresAuth: true,
+        showNav:true,
+      }
     },
     {
       path:'/orders',
       name:"orders",
       component:Orders,
-      meta:{requiresAuth:true}
+      meta: {
+        requiresAuth: true,
+        showNav:true,
+      }
     }
 
   ],
