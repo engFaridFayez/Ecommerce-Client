@@ -3,21 +3,29 @@ import { ref, watch, computed } from "vue";
 import { useCartStore } from "@/stores/CartStore";
 import { useProductStore } from "@/stores/productStore";
 import { useToastStore } from "@/stores/toastStore";
+import { useAuthStore } from "@/stores/authStore";
+import router from "@/router";
 
 const toast = useToastStore();
 
 const cartStore = useCartStore();
 
+const authStore = useAuthStore();
 
 const quantity = ref(1);
 
 const addProduct = async (productId) => {
+  // 🛑 لو مش عامل login → روح login فورًا
+  if (!authStore.accessToken) {
+    router.push("/login");
+    return;
+  }
+
   try {
     await cartStore.addToCart(productId, quantity.value);
     await cartStore.fetchCart();
 
     toast.showToast("Product Added to your cart ✅");
-
   } catch (error) {
     toast.showToast("Failed To add product ❌", "error");
   }

@@ -1,3 +1,4 @@
+import Popup from "@/components/Popup.vue";
 import router from "@/router";
 import axios from "axios";
 
@@ -22,19 +23,28 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
-            const token = localStorage.getItem("access");
+        if (error.response && error.response?.status === 401) {
 
-            if (!token) {
-                router.push("/login");
+            const hadToken = !!localStorage.getItem("access");
+
+            // 🧹 cleanup
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+            localStorage.removeItem("cart");
+
+            if (hadToken) {
+                // 🔥 session expired
+                window.dispatchEvent(new Event("unauthorized"));
             }
+
+            return Promise.reject(error);
         }
+
         return Promise.reject(error);
     }
-)
+);
 
 export default api;
