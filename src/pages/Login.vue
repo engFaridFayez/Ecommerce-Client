@@ -15,13 +15,12 @@ const submit = async () => {
   await authStore.loginUser(form.value);
   if (!authStore.error) {
     router.push("/");
+    await authStore.getProfile();
   }
 };
 
 onMounted(async () => {
   const res = await getProducts();
-  const products = res;
-  //console.log(products);
 });
 </script>
 

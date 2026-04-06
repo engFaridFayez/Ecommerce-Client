@@ -114,6 +114,6 @@ export const useAuthStore = defineStore("auth", {
             }finally{
                 this.loading = false
             }
-        }
+        },
     }
 })
