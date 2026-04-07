@@ -10,6 +10,9 @@ import Cart from '@/pages/Cart.vue'
 import Categories from '@/pages/Categories.vue'
 import Profile from '@/pages/Profile.vue'
 import Orders from '@/pages/Orders.vue'
+import Users from '@/pages/Users.vue'
+import UserDetails from '@/pages/UserDetails.vue'
+import AddUser from '@/pages/AddUser.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -96,7 +99,22 @@ const router = createRouter({
         requiresAuth: true,
         showNav:true,
       }
-    }
+    },
+    {
+      path:"/users",
+      name:"users",
+      component:Users
+    },
+    {
+      path:"/add-user",
+      name:"add-user",
+      component:AddUser
+    },
+    {
+      path:"/users/:id",
+      name:"user-details",
+      component:UserDetails
+    },
 
   ],
 })

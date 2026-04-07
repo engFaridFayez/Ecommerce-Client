@@ -11,3 +11,19 @@ export const register = (data)=>{
 export const profile = () => {
     return api.get("accounts/users/profile/")
 }
+
+export const users = () => {
+    return api.get("accounts/users/")
+}
+
+export const singleUser = (id) => {
+    return api.get(`accounts/users/${id}/`)
+}
+
+export const currentUser = () => {
+    return api.get('accounts/users/me/')
+}
+
+export const deleteUser = (id) => {
+    return api.delete(`accounts/users/delete/${id}/`)
+}

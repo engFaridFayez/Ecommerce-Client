@@ -9,6 +9,7 @@ const props = defineProps({
     type: String,
     default: "info", // success | error | warning | info
   },
+  buttonColor: String,
 });
 
 const emit = defineEmits(["close", "action"]);
@@ -16,11 +17,11 @@ const emit = defineEmits(["close", "action"]);
 const handleClose = () => {
   emit("close");
   window.location.reload();
-}
+};
 
 const handleAction = () => {
   emit("action");
-}
+};
 
 const styles = computed(() => {
   switch (props.type) {
@@ -34,19 +35,30 @@ const styles = computed(() => {
       return "bg-indigo-500";
   }
 });
+
+const actionButtonStyles = computed(() => {
+  switch (props.buttonColor) {
+    case "ok":
+      return "bg-green-500";
+    case "delete":
+      return "bg-red-500";
+    case "login":
+      return "bg-indigo-500";
+    default:
+      return "bg-black";
+  }
+});
 </script>
 
 <template>
   <!-- Overlay -->
   <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-    
     <!-- Popup -->
     <div
       class="bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 animate-fadeIn"
     >
       <!-- Header -->
       <div class="flex items-start gap-4">
-        
         <!-- Icon -->
         <div
           :class="styles"
@@ -99,7 +111,10 @@ const styles = computed(() => {
         <button
           v-if="button"
           @click="handleAction"
-          class="px-4 py-2 text-sm rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+          :class="[
+            actionButtonStyles,
+            'px-4 py-2 text-sm rounded-lg text-white cursor-pointer',
+          ]"
         >
           {{ button }}
         </button>
