@@ -68,7 +68,7 @@ const submit = async () => {
     }
 
     if (!authStore.error) {
-      router.push("/users");
+      router.push("/admin/users");
     }
   } catch (error) {}
 };

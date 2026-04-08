@@ -22,7 +22,10 @@ const router = createRouter({
     {
       path: "/admin",
       component: () => import('@/layouts/AdminLayout.vue'),
-      meta: { requiresAuth: true },
+      meta: { 
+        requiresAuth: true,
+        showNav: false
+      },
 
       children: [
 

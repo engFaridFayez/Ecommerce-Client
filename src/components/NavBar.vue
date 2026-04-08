@@ -121,7 +121,7 @@ onBeforeUnmount(() => {
 
         <!-- Right Side -->
         <div
-          v-if="authStore.accessToken"
+          v-if="authStore.accessToken && authStore.user"
           class="flex items-center space-x-4 pl-5"
         >
           <router-link to="/cart" class="relative">
@@ -142,11 +142,7 @@ onBeforeUnmount(() => {
               @click="toggleDropdown"
               class="flex items-center space-x-2 cursor-pointer"
             >
-              <img
-                :src="authStore.image"
-                alt="user"
-                class="w-10 h-10 rounded-full border-2 border-purple-400"
-              />
+            <div class="text-white">Hi, {{ authStore.user.username }}</div>
               <span class="text-white text-lg">⌄</span>
             </div>
 
