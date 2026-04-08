@@ -160,12 +160,18 @@ onBeforeUnmount(() => {
                   Profile
                 </button>
               </router-link>
+              <router-link v-if="authStore.user.role == 'manager'"  to="/admin">
+                <button class="w-full text-left px-4 py-2 hover:bg-gray-100 font-semibold cursor-pointer">
+                  Dashboard
+                </button>
+              </router-link>
               <button
                 @click="logout"
                 class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500 font-semibold cursor-pointer"
               >
                 Logout
               </button>
+              
               
             </div>
           </div>

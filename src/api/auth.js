@@ -27,3 +27,15 @@ export const currentUser = () => {
 export const deleteUser = (id) => {
     return api.delete(`accounts/users/delete/${id}/`)
 }
+
+export const addUser = (data) => {
+    return api.post('accounts/users/create/',data,{
+        headers: {'Content-Type': 'multipart/form-data'}
+    })
+}
+
+export const editUser = (id,data) => {
+    return api.patch(`accounts/users/update/${id}/`,data,{
+        headers:{'Content-Type':'multipart/form-data'}
+    })
+}

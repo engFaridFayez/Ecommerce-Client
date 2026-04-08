@@ -17,13 +17,12 @@ const authStore = useAuthStore();
 const confirmDelete = async () => {
   await authStore.deleteUserMethod(selectedUserId.value);
   await authStore.getUsers();
-  showPopup.value = false
+  showPopup.value = false;
 };
 const closePopup = () => {
   showPopup.value = false;
-  selectedUserId.value = null
-}
-
+  selectedUserId.value = null;
+};
 
 onMounted(() => {
   authStore.loadUserFromLocalStorage();
@@ -49,7 +48,7 @@ onMounted(() => {
       </h1>
       <div v-if="authStore.user && authStore.user.role === 'manager'">
         <router-link
-          to="/add-user"
+          to="/admin/add-user"
           class="px-3 p-2 text-lg h-fit bg-black text-white rounded-2xl"
         >
           Add User
@@ -117,18 +116,19 @@ onMounted(() => {
 
               <td class="px-6 py-4 text-right space-x-2">
                 <router-link
-                  :to="`/users/${user.id}`"
+                  :to="`/admin/users/${user.id}`"
                   class="px-3 py-1 text-xs bg-blue-500 text-white rounded-lg"
                   >View</router-link
                 >
-                <button
+                <router-link
+                  :to="`/admin/edit-user/${user.id}`"
                   class="px-3 py-1 text-xs bg-yellow-500 text-white rounded-lg"
                 >
                   Edit
-                </button>
+                </router-link>
                 <button
                   @click="openDeletePopup(user.id)"
-                  class="px-3 py-1 text-xs bg-red-500 text-white rounded-lg"
+                  class="px-3 py-1 text-xs bg-red-500 text-white rounded-lg cursor-pointer"
                 >
                   Delete
                 </button>
@@ -182,29 +182,18 @@ onMounted(() => {
           >
             {{ user.is_active ? "Active" : "Inactive" }}
           </span>
-
-          <span
-            class="text-xs px-2 py-1 rounded-full"
-            :class="
-              user.is_blocked
-                ? 'bg-red-100 text-red-600'
-                : 'bg-green-100 text-green-600'
-            "
-          >
-            {{ user.is_blocked ? "Blocked" : "OK" }}
-          </span>
         </div>
 
         <div class="mt-4 flex gap-2">
-          <button class="flex-1 py-1 text-xs bg-blue-500 text-white rounded-lg">
+          <button class="flex-1 py-1 text-xs bg-blue-500 text-white rounded-lg cursor-pointer">
             View
           </button>
           <button
-            class="flex-1 py-1 text-xs bg-yellow-500 text-white rounded-lg"
+            class="flex-1 py-1 text-xs bg-yellow-500 text-white rounded-lg cursor-pointer"
           >
             Edit
           </button>
-          <button class="flex-1 py-1 text-xs bg-red-500 text-white rounded-lg">
+          <button class="flex-1 py-1 text-xs bg-red-500 text-white rounded-lg cursor-pointer">
             Delete
           </button>
         </div>

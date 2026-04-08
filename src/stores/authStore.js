@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { currentUser, deleteUser, login, profile, register, singleUser, users } from "@/api/auth";
+import { addUser, currentUser, deleteUser, editUser, login, profile, register, singleUser, users } from "@/api/auth";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
@@ -14,6 +14,39 @@ export const useAuthStore = defineStore("auth", {
     }),
 
     actions: {
+
+        async addUserMethod(data) {
+            this.loading = true
+            this.error = null
+
+            try {
+                const response = await addUser(data)
+                this.users.push(response.data)
+            } catch (error) {
+                console.log("FULL ERROR:", error);
+                this.error = error.response?.data;
+            }finally {
+                this.loading = false
+            }
+        },
+
+        async editUserMetod(id,data){
+            this.loading = true
+            this.error = null
+
+            try {
+                const response = await editUser(id,data)
+                const index = this.users.findIndex(p =>p.id === id)
+                if(index !== -1){
+                    this.users[index] = response.data
+                }
+            } catch (error) {
+                console.log("FULL ERROR:", error);
+                this.error = error.response?.data;
+            }finally{
+                this.loading = true
+            }
+        },
 
         async deleteUserMethod(id) {
             this.loading = true
